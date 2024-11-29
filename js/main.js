@@ -4,8 +4,6 @@ let sendData = () => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    data['saved'] = new Date().toLocaleString('es-CO', { timeZone: 'America/Guayaquil' })
-
     fetch(databaseURL, {
          method: 'POST', // Método de la solicitud
          headers: {
@@ -39,29 +37,9 @@ let getData = async () => {
         const data = await response.json();
 
         if(data != null){
-            let countSuscribers = new Map()
-            if (Object.keys(data).length > 0) {
-                for (let key in data) {
-                    let { email, saved } = data[key]
-                    let date = saved.split(",")[0]
-                    let count = countSuscribers.get(date) || 0;
-                    countSuscribers.set(date, count + 1)
-                }
-            }
-            if (countSuscribers.size > 0) {
+            let count = Object.keys(data).length;
 
-                subscribers.innerHTML = ''
-
-                for (let [date, count] of countSuscribers) {
-                    let rowTemplate = `
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>${date}</td>
-                            <td>${count}</td>
-                        </tr>`
-                    subscribers.innerHTML += rowTemplate
-                }
-            }
+            subscribers.innerHTML = `<h2>${count}</h2>`;
         }
     } catch (error) {
         alert('Hemos experimentado un error. ¡Vuelve pronto!');
@@ -101,9 +79,28 @@ let loaded = () => {
             )
             return;
         }
+        const selectElement = document.querySelector('select.form-select');
+        const selectValue = selectElement.value;
+
+        if (selectValue === "" || selectValue === null) {
+            selectElement.focus();
+            selectElement.animate(
+                [
+                    { transform: "translateY(0)" },
+                    { transform: "translateY(10px)" },
+                    { transform: "translateY(-10px)" },
+                    { transform: "translateY(0)" }
+                ],
+                {
+                    duration: 400,
+                    easing: "linear",
+                }
+            );
+            return;
+        }
+
         sendData();
     })
-
 }
 
 window.addEventListener("DOMContentLoaded", ready);
