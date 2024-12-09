@@ -18,12 +18,12 @@ let sendData = () => {
          return response.json(); // Procesa la respuesta como JSON
      })
      .then(result => {
-         alert('Agradeciendo tu preferencia, nos mantenemos actualizados y enfocados en atenderte como mereces'); // Maneja la respuesta con un mensaje
+         alert('Tu registro ha sido procesado!'); // Maneja la respuesta con un mensaje
          form.reset()
          getData()
      })
      .catch(error => {
-         alert('Hemos experimentado un error. ¡Vuelve pronto!'); // Maneja el error con un mensaje
+         console.log('Hemos experimentado un error. ¡Vuelve pronto!'); // Maneja el error con un mensaje
      });
 }
 
@@ -31,7 +31,7 @@ let getData = async () => {
     try {
         const response = await fetch(databaseURL)
         if (!response.ok) {
-           alert('Hemos experimentado un error. ¡Vuelve pronto!'); // Maneja el error con un mensaje
+           console.log('Hemos experimentado un error. ¡Vuelve pronto!'); // Maneja el error con un mensaje
         }
 
         const data = await response.json();
@@ -42,7 +42,7 @@ let getData = async () => {
             subscribers.innerHTML = `<h2>${count}</h2>`;
         }
     } catch (error) {
-        alert('Hemos experimentado un error. ¡Vuelve pronto!');
+        console.log('Hemos experimentado un error. ¡Vuelve pronto!');
     }
 }
 
